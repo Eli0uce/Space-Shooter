@@ -1,0 +1,42 @@
+body {
+    margin: 0;
+}
+
+#misc {
+    position: absolute;
+}
+
+.game {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background-image: url(./img/background.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.player {
+    position: absolute;
+    background-image: url(./img/spaceship.png);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.ennemy {
+    position: absolute;
+    background-image: url(./img/spaceship2.png);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bullet {
+    z-index: 2;
+    position: absolute;
+    background-image: url(./img/bullet1.png);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
