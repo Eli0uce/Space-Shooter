@@ -23,7 +23,7 @@ body {
     background-image: url(./img/planet-top.png);
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
 }
 
 .player {
@@ -58,9 +58,17 @@ body {
     background-repeat: no-repeat;
 }
 
+.regen {
+    position: absolute;
+    background-image: url(./img/regen.png);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .bullet {
     position: absolute;
-    background-image: url(./img/bullet1.png);
+    /*background-image: url(./img/bullet1.png);*/
     background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
