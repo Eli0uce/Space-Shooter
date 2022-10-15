@@ -1,19 +1,28 @@
 // Init Variables
 let press = null;
 let code = null;
+let score = 0;
+let health = 10;
 const bullets = [];
+const levelups = [];
 const ennemies = [];
-const bonus = [];
+const ennemies2 = [];
 const playerWidth = 100;
 const playerHeight = 100;
 const bulletWidth = 20;
 const bulletHeight = 20;
-const bonusWidth = 50;
-const bonusHeight = 50;
+const levelupsWidth = 50;
+const levelupsHeight = 50;
 const ennemiesWidth = 80;
 const ennemiesHeight = 80;
+const ennemies2Width = 100;
+const ennemies2Height = 100;
 let playerLeft = (window.innerWidth - playerWidth) / 2;
 let playerTop = (window.innerHeight - playerHeight);
+
+// Attribution des valeurs en début de partie
+document.getElementById("score").innerHTML = "Score : " + score;
+document.getElementById("health").innerHTML = "Santé : " + health;
 
 // Dom Instances
 const game = document.getElementById('game');
@@ -45,6 +54,9 @@ window.addEventListener('keyup', function () {
     press = false
 })
 
+var speed = 7000;
+var speed2 = 40000;
+
 // Function to generate ennemies
 function generate() {
     const ennemy = document.createElement('div')
@@ -57,29 +69,48 @@ function generate() {
     ennemies.push(ennemy);
 
     // Generate next ennemy with random time of 5s
-    setTimeout(generate, Math.round(Math.random() * 5000));
+    setTimeout(generate, Math.round(Math.random() * speed));
+    speed = speed - 50;
+
+}
+
+function generate2() {
+    const ennemy2 = document.createElement('div')
+    ennemy2.style.width = ennemies2Width + 'px';
+    ennemy2.style.height = ennemies2Height + 'px';
+    ennemy2.style.left = Math.round(Math.random() * (window.innerWidth - ennemies2Width)) + 'px';
+    ennemy2.style.top = 0 + 'px';
+    ennemy2.className = 'ennemy2';
+    game.appendChild(ennemy2);
+    ennemies2.push(ennemy2);
+
+    // Generate next ennemy with random time of 5s
+    setTimeout(generate2, Math.round(Math.random() * speed2));
+    speed2 = speed2 - 25;
+
 }
 
 // Generate first ennemy
 generate();
+generate2();
 
-// Function to generate bonus
-function generateBonus() {
-    const bonus = document.createElement('div')
-    bonus.style.width = bonusWidth + 'px';
-    bonus.style.height = bonusHeight + 'px';
-    bonus.style.left = Math.round(Math.random() * (window.innerWidth - bonusWidth)) + 'px';
-    bonus.style.top = 0 + 'px';
-    bonus.className = 'bonus';
-    game.appendChild(bonus);
-    bonus.push(bonus);
+// Function to generate bonuses
+function levelUp() {
+    const levelup = document.createElement('div')
+    levelup.style.width = levelupsWidth + 'px';
+    levelup.style.height = levelupsHeight + 'px';
+    levelup.style.left = Math.round(Math.random() * (window.innerWidth - levelupsWidth)) + 'px';
+    levelup.style.top = 0 + 'px';
+    levelup.className = 'levelup';
+    game.appendChild(levelup);
+    levelups.push(levelup);
 
-    // Generate next ennemy with random time of 30s
-    setTimeout(generate, Math.round(Math.random() * 30000));
-}
+    // Generate next bonuses with random time of 30s
+    setTimeout(levelUp, Math.round(Math.random() * (10 * 10000)));
+};
 
-// Generate first bonus
-generateBonus();
+// Generate first levelup
+levelUp();
 
 function draw() {
     if (press && code == 39 && playerLeft <= window.innerWidth - playerWidth) {
@@ -112,15 +143,11 @@ function draw() {
         }
     }
 
-    // Collision Detection
+    // Collision Detection + Score
     for (let i = 0; i < ennemies.length; i++) {
-
-
         const ennemy = ennemies[i];
         for (let j = 0; j < bullets.length; j++) {
             const bullet = bullets[j];
-
-
 
             if (bullet.offsetLeft + (bullet.clientWidth / 2) > ennemy.offsetLeft
                 && bullet.offsetLeft + (bullet.clientWidth / 2) < ennemy.offsetLeft + ennemy.clientWidth
@@ -131,7 +158,64 @@ function draw() {
 
                 game.removeChild(bullet);
                 bullets.splice(j, 1);
+
+                score = score + 1;
+                document.getElementById('score').innerHTML = "Score : " + score;
             }
+        }
+    }
+
+    // Collision Detection2 + Score
+    for (let i = 0; i < ennemies2.length; i++) {
+        const ennemy2 = ennemies2[i];
+        for (let j = 0; j < bullets.length; j++) {
+            const bullet = bullets[j];
+
+            if (bullet.offsetLeft + (bullet.clientWidth / 2) > ennemy2.offsetLeft
+                && bullet.offsetLeft + (bullet.clientWidth / 2) < ennemy2.offsetLeft + ennemy2.clientWidth
+                && bullet.offsetTop + (bullet.clientHeight / 2) > ennemy2.offsetTop
+                && bullet.offsetTop + (bullet.clientHeight / 2) < ennemy2.offsetTop + ennemy2.clientWidth) {
+                game.removeChild(ennemy2);
+                ennemies2.splice(i, 1);
+
+                game.removeChild(bullet);
+                bullets.splice(j, 1);
+
+                score = score + 1;
+                document.getElementById('score').innerHTML = "Score : " + score;
+            }
+        }
+    }
+
+    // Take Bonus(levelup)
+    for (let k = 0; k < levelups.length; k++) {
+        const levelup = levelups[k];
+        for (let l = 0; l < bullets.length; l++) {
+            const bullet = bullets[l];
+
+            if (bullet.offsetLeft + (bullet.clientWidth / 2) > levelup.offsetLeft
+                && bullet.offsetLeft + (bullet.clientWidth / 2) < levelup.offsetLeft + levelup.clientWidth
+                && bullet.offsetTop + (bullet.clientHeight / 2) > levelup.offsetTop
+                && bullet.offsetTop + (bullet.clientHeight / 2) < levelup.offsetTop + levelup.clientWidth) {
+                game.removeChild(levelup);
+                levelups.splice(k, 1);
+
+                game.removeChild(bullet);
+                bullets.splice(l, 1);
+                score = score + 2;
+                document.getElementById('score').innerHTML = "Score : " + score;
+            }
+        }
+    }
+
+    // Draw levelup
+    for (let index = 0; index < levelups.length; index++) {
+        const levelup = levelups[index];
+        levelup.style.top = (parseInt(levelup.style.top) + 2) + 'px';
+
+        if (parseInt(levelup.style.top) > window.innerHeight - levelupsHeight) {
+            game.removeChild(levelup);
+            levelups.splice(index, 1);
         }
     }
 
@@ -143,17 +227,29 @@ function draw() {
         if (parseInt(ennemy.style.top) > window.innerHeight - ennemiesHeight) {
             game.removeChild(ennemy);
             ennemies.splice(index, 1);
+            health = health - 1;
+            document.getElementById("health").innerHTML = "Santé : " + health;
+            if (health <= 0) {
+                alert("You Lose !");
+                window.location.reload();
+            }
         }
     }
 
-    // Draw bonus
-    for (let index = 0; index < bonus.length; index++) {
-        const bonus = bonus[index];
-        bonus.style.top = (parseInt(bonus.style.top) + 2) + 'px';
+    // Draw ennemies2
+    for (let index = 0; index < ennemies2.length; index++) {
+        const ennemy2 = ennemies2[index];
+        ennemy2.style.top = (parseInt(ennemy2.style.top) + 2) + 'px';
 
-        if (parseInt(bonus.style.top) > window.innerHeight - bonusHeight) {
-            game.removeChild(bonus);
-            bonus.splice(index, 1);
+        if (parseInt(ennemy2.style.top) > window.innerHeight - ennemies2Height) {
+            game.removeChild(ennemy2);
+            ennemies2.splice(index, 1);
+            health = health - 1;
+            document.getElementById("health").innerHTML = "Santé : " + health;
+            if (health <= 0) {
+                alert("You Lose !");
+                window.location.reload();
+            }
         }
     }
 

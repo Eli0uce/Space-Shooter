@@ -10,7 +10,17 @@ body {
     width: 100vw;
     height: 100vh;
     position: relative;
-    background-image: url(./img/background.jpg);
+    background-image: url(./img/background.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.planet-top {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background-image: url(./img/planet-top.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -32,11 +42,63 @@ body {
     background-repeat: no-repeat;
 }
 
+.ennemy2 {
+    position: absolute;
+    background-image: url(./img/spaceship3.png);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.levelup {
+    position: absolute;
+    background-image: url(./img/levelup.png);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .bullet {
-    z-index: 2;
     position: absolute;
     background-image: url(./img/bullet1.png);
     background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+.bullet2 {
+    position: absolute;
+    background-image: url(./img/bullet2.png);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.score {
+    z-index: 2;
+    margin-top: 1em;
+    margin-left: 1em;
+    border-radius: 5px;
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    background-color: greenyellow;
+    text-align: center;
+    color: black;
+    font-size: x-large;
+}
+
+.health {
+    z-index: 2;
+    margin-top: 1em;
+    margin-left: 1em;
+    border-radius: 5px;
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    background-color: red;
+    text-align: center;
+    color: black;
+    font-size: x-large;
+    top: 40px;
 }

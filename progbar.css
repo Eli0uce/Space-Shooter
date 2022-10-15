@@ -1,0 +1,32 @@
+:root {
+    --success: #cc2b03;
+    --progress: #e17055;
+  }
+  
+  .progressbar-wrapper {
+    margin-top: 2em;
+    margin-left: 35%;
+    z-index: 2;
+    position: absolute;
+    background-color: #dfe6e9;
+    color: white;
+    border-radius: 15px;
+    width: 30%;
+  }
+  
+  .healthbar {
+    background-color: var(--progress);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    font-size: 20px;
+    border-radius: 15px;
+  }
+  
+  .healthbar[title="downloading"] {
+    background-color: var(--progress);
+  }
+  
+  .healthbar[title="full"] {
+    background-color: var(--success);
+  }
