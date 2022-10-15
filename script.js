@@ -37,7 +37,6 @@ const player = document.getElementById('player');
 player.style.width = playerWidth + 'px';
 player.style.height = playerHeight + 'px';
 
-
 // Capture keydown event
 window.addEventListener('keydown', function (event) {
     code = event.keyCode;
@@ -250,6 +249,9 @@ function draw() {
 
             score += 2;
             document.getElementById('score').innerHTML = "Score : " + score;
+            if (press && code == 40 && playerTop <= window.innerHeight - playerHeight) {
+                playerTop = playerTop + 10;
+            }
         }
     }
 
@@ -322,6 +324,11 @@ function draw() {
                 window.location.reload();
             }
         }
+    }
+
+    if (score > 100) {
+        alert("You Win !");
+        window.location.reload();
     }
 
     // Call the next drax when done
