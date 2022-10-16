@@ -1,7 +1,7 @@
 // Init Variables
 let press = null;
 let code = null;
-let score = 0;
+let score = 95;
 let health = 10;
 const bullets = [];
 const levelups = [];
@@ -320,15 +320,22 @@ function draw() {
             health = health - 1;
             document.getElementById("health").innerHTML = "Santé : " + health;
             if (health <= 0) {
-                alert("You Lose !");
-                window.location.reload();
+                window.confirm("You Lose !");
+                if (confirm("Restart!")) {
+                    window.location.reload();
+                  }
             }
         }
     }
 
-    if (score > 100) {
-        alert("You Win !");
-        window.location.reload();
+    if (score >= 100) {
+        document.getElementById("score").style.width = "110px"
+    }
+    if (score > 1000) {
+        window.confirm("You Win !");
+            if (confirm("Restart!")) {
+                window.location.reload();
+            }
     }
 
     // Call the next drax when done
