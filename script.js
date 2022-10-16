@@ -254,9 +254,7 @@ function draw() {
 
             score += 2;
             document.getElementById('score').innerHTML = "Score : " + score;
-            if (press && code == 40 && playerTop <= window.innerHeight - playerHeight) {
-                spaceshipSpeed += 5;
-            }
+            spaceshipSpeed += 5;
         }
     }
 
