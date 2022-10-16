@@ -1,10 +1,11 @@
 // Init Variables
 let press = null;
 let code = null;
-let score = 95;
-let health = 10;
+let score = 0;
+let health = 100000;
+let spaceshipSpeed = 5;
 const bullets = [];
-const levelups = [];
+const lazers = [];
 const regens = [];
 const ennemies = [];
 const ennemies2 = [];
@@ -12,8 +13,8 @@ const playerWidth = 100;
 const playerHeight = 100;
 const bulletWidth = 20;
 const bulletHeight = 20;
-const levelupsWidth = 50;
-const levelupsHeight = 50;
+const lazersWidth = 50;
+const lazersHeight = 50;
 const regensWidth = 50;
 const regensHeight = 50;
 const ennemiesWidth = 80;
@@ -74,7 +75,9 @@ function generate() {
     ennemies.push(ennemy);
     // Generate next ennemy with random time of 5s
     setTimeout(generate, Math.round(Math.random() * speed));
-    speed = speed - 50;
+    if (speed >= 2500) {
+        speed = speed - 50;
+    } 
 
 }
 
@@ -89,7 +92,9 @@ function generate2() {
     ennemies2.push(ennemy2);
     // Generate next ennemy with random time of 5s
     setTimeout(generate2, Math.round(Math.random() * speed2));
-    speed2 = speed2 - 25;
+    if (speed2 >= 5000) {
+        speed2 = speed2 - 50;
+    } 
 
 }
 // Generate first ennemy
@@ -97,20 +102,20 @@ generate();
 generate2();
 
 // Function to generate bonuses
-function levelUp() {
-    const levelup = document.createElement('div')
-    levelup.style.width = levelupsWidth + 'px';
-    levelup.style.height = levelupsHeight + 'px';
-    levelup.style.left = Math.round(Math.random() * (window.innerWidth - levelupsWidth)) + 'px';
-    levelup.style.top = 0 + 'px';
-    levelup.className = 'levelup';
-    game.appendChild(levelup);
-    levelups.push(levelup);
+function lazer() {
+    const lazer = document.createElement('div')
+    lazer.style.width = lazersWidth + 'px';
+    lazer.style.height = lazersHeight + 'px';
+    lazer.style.left = Math.round(Math.random() * (window.innerWidth - lazersWidth)) + 'px';
+    lazer.style.top = 0 + 'px';
+    lazer.className = 'lazer';
+    game.appendChild(lazer);
+    lazers.push(lazer);
     // Generate next bonuses with random time of 30s
-    setTimeout(levelUp, Math.round(Math.random() * (10 * 10000)));
+    setTimeout(lazer, Math.round(Math.random() * (10 * 10000)));
 };
-// Generate first levelup
-levelUp();
+// Generate first lazer
+lazer();
 
 // Function to generate Regen
 function regenUp() {
@@ -125,7 +130,7 @@ function regenUp() {
     // Generate next bonuses with random time of 30s
     setTimeout(regenUp, Math.round(Math.random() * (10 * 35000)));
 };
-// Generate first levelup
+// Generate first lazer
 regenUp();
 
 function draw() {
@@ -138,11 +143,11 @@ function draw() {
     }
 
     if (press && code == 40 && playerTop <= window.innerHeight - playerHeight) {
-        playerTop = playerTop + 5;
+        playerTop = playerTop + spaceshipSpeed;
     }
 
     if (press && code == 38 && playerTop >= 0) {
-        playerTop = playerTop - 5;
+        playerTop = playerTop - spaceshipSpeed;
     }
 
     player.style.left = playerLeft + 'px';
@@ -237,20 +242,20 @@ function draw() {
         }
     }
 
-    // Take bonus 
-    for (let index = 0; index < levelups.length; index++) {
-        const levelup = levelups[index];
-        if (player.offsetLeft + (player.clientWidth / 2) > levelup.offsetLeft
-            && player.offsetLeft + (player.clientWidth / 2) < levelup.offsetLeft + levelup.clientWidth
-            && player.offsetTop + (player.clientHeight / 2) > levelup.offsetTop
-            && player.offsetTop + (player.clientHeight / 2) < levelup.offsetTop + levelup.clientHeight) {
-            game.removeChild(levelup);
-            levelups.splice(index, 1);
+    // Take lazer
+    for (let index = 0; index < lazers.length; index++) {
+        const lazer = lazers[index];
+        if (player.offsetLeft + (player.clientWidth / 2) > lazer.offsetLeft
+            && player.offsetLeft + (player.clientWidth / 2) < lazer.offsetLeft + lazer.clientWidth
+            && player.offsetTop + (player.clientHeight / 2) > lazer.offsetTop
+            && player.offsetTop + (player.clientHeight / 2) < lazer.offsetTop + lazer.clientHeight) {
+            game.removeChild(lazer);
+            lazers.splice(index, 1);
 
             score += 2;
             document.getElementById('score').innerHTML = "Score : " + score;
             if (press && code == 40 && playerTop <= window.innerHeight - playerHeight) {
-                playerTop = playerTop + 10;
+                spaceshipSpeed += 5;
             }
         }
     }
@@ -270,14 +275,14 @@ function draw() {
         }
     }
 
-    // Draw levelup
-    for (let index = 0; index < levelups.length; index++) {
-        const levelup = levelups[index];
-        levelup.style.top = (parseInt(levelup.style.top) + 1) + 'px';
+    // Draw lazer
+    for (let index = 0; index < lazers.length; index++) {
+        const lazer = lazers[index];
+        lazer.style.top = (parseInt(lazer.style.top) + 1) + 'px';
 
-        if (parseInt(levelup.style.top) > window.innerHeight - levelupsHeight) {
-            game.removeChild(levelup);
-            levelups.splice(index, 1);
+        if (parseInt(lazer.style.top) > window.innerHeight - lazersHeight) {
+            game.removeChild(lazer);
+            lazers.splice(index, 1);
         }
     }
 
@@ -320,7 +325,7 @@ function draw() {
             health = health - 1;
             document.getElementById("health").innerHTML = "Santé : " + health;
             if (health <= 0) {
-                window.confirm("You Lose !");
+                window.confirm("You Lose ! Score : " + score);
                 if (confirm("Restart!")) {
                     window.location.reload();
                   }

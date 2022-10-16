@@ -50,9 +50,9 @@ body {
     background-repeat: no-repeat;
 }
 
-.levelup {
+.lazer {
     position: absolute;
-    background-image: url(./img/levelup.png);
+    background-image: url(./img/lazer.png);
     background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
