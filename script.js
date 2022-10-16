@@ -2,10 +2,11 @@
 let press = null;
 let code = null;
 let score = 0;
-let health = 100000;
+let health = 10;
 let spaceshipSpeed = 5;
 const bullets = [];
 const lazers = [];
+const boosts = [];
 const regens = [];
 const ennemies = [];
 const ennemies2 = [];
@@ -15,6 +16,8 @@ const bulletWidth = 20;
 const bulletHeight = 20;
 const lazersWidth = 50;
 const lazersHeight = 50;
+const boostsWidth = 50;
+const boostsHeight = 50;
 const regensWidth = 50;
 const regensHeight = 50;
 const ennemiesWidth = 80;
@@ -114,8 +117,22 @@ function lazer() {
     // Generate next bonuses with random time of 30s
     setTimeout(lazer, Math.round(Math.random() * (10 * 10000)));
 };
-// Generate first lazer
+
+function boostUp() {
+    const boost = document.createElement('div')
+    boost.style.width = boostsWidth + 'px';
+    boost.style.height = boostsHeight + 'px';
+    boost.style.left = Math.round(Math.random() * (window.innerWidth - boostsWidth)) + 'px';
+    boost.style.top = 0 + 'px';
+    boost.className = 'boost';
+    game.appendChild(boost);
+    boosts.push(boost);
+    // Generate next bonuses with random time of 30s
+    setTimeout(boost, Math.round(Math.random() * (10 * 10000)));
+};
+// Generate first boost
 lazer();
+boostUp();
 
 // Function to generate Regen
 function regenUp() {
@@ -130,7 +147,7 @@ function regenUp() {
     // Generate next bonuses with random time of 30s
     setTimeout(regenUp, Math.round(Math.random() * (10 * 35000)));
 };
-// Generate first lazer
+// Generate first regen
 regenUp();
 
 function draw() {
@@ -252,8 +269,20 @@ function draw() {
             game.removeChild(lazer);
             lazers.splice(index, 1);
 
-            score += 2;
-            document.getElementById('score').innerHTML = "Score : " + score;
+            document.getElementById('bullet').style.backgroundImage = 'url(./img/bullet2.png)';
+        }
+    }
+
+    // Take boost
+    for (let index = 0; index < boosts.length; index++) {
+        const boost = boosts[index];
+        if (player.offsetLeft + (player.clientWidth / 2) > boost.offsetLeft
+            && player.offsetLeft + (player.clientWidth / 2) < boost.offsetLeft + boost.clientWidth
+            && player.offsetTop + (player.clientHeight / 2) > boost.offsetTop
+            && player.offsetTop + (player.clientHeight / 2) < boost.offsetTop + boost.clientHeight) {
+            game.removeChild(boost);
+            boosts.splice(index, 1);
+
             spaceshipSpeed += 5;
         }
     }
@@ -284,6 +313,17 @@ function draw() {
         }
     }
 
+    // Draw boost
+    for (let index = 0; index < boosts.length; index++) {
+        const boost = boosts[index];
+        boost.style.top = (parseInt(boost.style.top) + 1) + 'px';
+
+        if (parseInt(boost.style.top) > window.innerHeight - boostsHeight) {
+            game.removeChild(boost);
+            boosts.splice(index, 1);
+        }
+    }
+
     // Draw regen
     for (let index = 0; index < regens.length; index++) {
         const regen = regens[index];
@@ -306,8 +346,10 @@ function draw() {
             health = health - 1;
             document.getElementById("health").innerHTML = "Santé : " + health;
             if (health <= 0) {
-                alert("You Lose !");
-                window.location.reload();
+                window.confirm("You Lose ! Score : " + score);
+                if (confirm("Restart!")) {
+                    window.location.reload();
+                  }
             }
         }
     }
