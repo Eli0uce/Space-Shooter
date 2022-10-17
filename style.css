@@ -58,6 +58,14 @@ body {
     background-repeat: no-repeat;
 }
 
+.boost {
+    position: absolute;
+    background-image: url(./img/boost.png);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .regen {
     position: absolute;
     background-image: url(./img/regen.png);

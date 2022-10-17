@@ -78,10 +78,9 @@ function generate() {
     ennemies.push(ennemy);
     // Generate next ennemy with random time of 5s
     setTimeout(generate, Math.round(Math.random() * speed));
-    if (speed >= 2500) {
+    if (speed >= 2000) {
         speed = speed - 50;
-    } 
-
+    }
 }
 
 function generate2() {
@@ -95,16 +94,15 @@ function generate2() {
     ennemies2.push(ennemy2);
     // Generate next ennemy with random time of 5s
     setTimeout(generate2, Math.round(Math.random() * speed2));
-    if (speed2 >= 5000) {
+    if (speed2 >= 4000) {
         speed2 = speed2 - 50;
-    } 
-
+    }
 }
 // Generate first ennemy
 generate();
 generate2();
 
-// Function to generate bonuses
+// Function to generate lazer and boost
 function lazer() {
     const lazer = document.createElement('div')
     lazer.style.width = lazersWidth + 'px';
@@ -114,11 +112,11 @@ function lazer() {
     lazer.className = 'lazer';
     game.appendChild(lazer);
     lazers.push(lazer);
-    // Generate next bonuses with random time of 30s
+    // Generate next lazer with random time of 30s
     setTimeout(lazer, Math.round(Math.random() * (10 * 10000)));
 };
 
-function boostUp() {
+function boost() {
     const boost = document.createElement('div')
     boost.style.width = boostsWidth + 'px';
     boost.style.height = boostsHeight + 'px';
@@ -127,12 +125,12 @@ function boostUp() {
     boost.className = 'boost';
     game.appendChild(boost);
     boosts.push(boost);
-    // Generate next bonuses with random time of 30s
+    // Generate next boost with random time of 30s
     setTimeout(boost, Math.round(Math.random() * (10 * 10000)));
 };
 // Generate first boost
 lazer();
-boostUp();
+boost();
 
 // Function to generate Regen
 function regenUp() {
@@ -166,6 +164,8 @@ function draw() {
     if (press && code == 38 && playerTop >= 0) {
         playerTop = playerTop - spaceshipSpeed;
     }
+
+    // Diagonale
 
     player.style.left = playerLeft + 'px';
     player.style.top = playerTop + 'px';
@@ -269,7 +269,7 @@ function draw() {
             game.removeChild(lazer);
             lazers.splice(index, 1);
 
-            document.getElementById('bullet').style.backgroundImage = 'url(./img/bullet2.png)';
+            // document.getElementById('bullet').style.backgroundImage = 'url(./img/bullet2.png)';
         }
     }
 
@@ -283,7 +283,7 @@ function draw() {
             game.removeChild(boost);
             boosts.splice(index, 1);
 
-            spaceshipSpeed += 5;
+            spaceshipSpeed = spaceshipSpeed + 5;
         }
     }
 
