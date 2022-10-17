@@ -102,7 +102,7 @@ function generate2() {
 generate();
 generate2();
 
-// Function to generate lazer and boost
+// Function to generate lazer, boost and regen
 function lazer() {
     const lazer = document.createElement('div')
     lazer.style.width = lazersWidth + 'px';
@@ -128,11 +128,7 @@ function boost() {
     // Generate next boost with random time of 30s
     setTimeout(boost, Math.round(Math.random() * (10 * 10000)));
 };
-// Generate first boost
-lazer();
-boost();
 
-// Function to generate Regen
 function regenUp() {
     const regen = document.createElement('div')
     regen.style.width = regensWidth + 'px';
@@ -145,7 +141,9 @@ function regenUp() {
     // Generate next bonuses with random time of 30s
     setTimeout(regenUp, Math.round(Math.random() * (10 * 35000)));
 };
-// Generate first regen
+// Generate lazer, boost and regen
+lazer();
+boost();
 regenUp();
 
 function draw() {
@@ -164,8 +162,6 @@ function draw() {
     if (press && code == 38 && playerTop >= 0) {
         playerTop = playerTop - spaceshipSpeed;
     }
-
-    // Diagonale
 
     player.style.left = playerLeft + 'px';
     player.style.top = playerTop + 'px';
@@ -259,7 +255,7 @@ function draw() {
         }
     }
 
-    // Take lazer
+    // Take lazer, boost and regen
     for (let index = 0; index < lazers.length; index++) {
         const lazer = lazers[index];
         if (player.offsetLeft + (player.clientWidth / 2) > lazer.offsetLeft
@@ -273,7 +269,6 @@ function draw() {
         }
     }
 
-    // Take boost
     for (let index = 0; index < boosts.length; index++) {
         const boost = boosts[index];
         if (player.offsetLeft + (player.clientWidth / 2) > boost.offsetLeft
@@ -287,7 +282,6 @@ function draw() {
         }
     }
 
-    // Take regen 
     for (let index = 0; index < regens.length; index++) {
         const regen = regens[index];
         if (player.offsetLeft + (player.clientWidth / 2) > regen.offsetLeft
@@ -302,7 +296,7 @@ function draw() {
         }
     }
 
-    // Draw lazer
+    // Draw lazer, boost and regen
     for (let index = 0; index < lazers.length; index++) {
         const lazer = lazers[index];
         lazer.style.top = (parseInt(lazer.style.top) + 1) + 'px';
@@ -313,7 +307,6 @@ function draw() {
         }
     }
 
-    // Draw boost
     for (let index = 0; index < boosts.length; index++) {
         const boost = boosts[index];
         boost.style.top = (parseInt(boost.style.top) + 1) + 'px';
@@ -324,7 +317,6 @@ function draw() {
         }
     }
 
-    // Draw regen
     for (let index = 0; index < regens.length; index++) {
         const regen = regens[index];
         regen.style.top = (parseInt(regen.style.top) + 1) + 'px';
