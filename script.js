@@ -54,6 +54,7 @@ window.addEventListener('keydown', function (event) {
         bullet.style.left = parseInt(player.style.left) + ((playerWidth - bulletWidth) / 2) + 'px';
         bullet.style.top = player.style.top;
         bullet.className = 'bullet';
+        bullet.id = 'bullet';
         game.appendChild(bullet);
         bullets.push(bullet);
     }
@@ -265,7 +266,7 @@ function draw() {
             game.removeChild(lazer);
             lazers.splice(index, 1);
 
-            // document.getElementById('bullet').style.backgroundImage = 'url(./img/bullet2.png)';
+            // document.getElementById('bullet').style.backgroundImg = "url(./img/bullet2.png)";
         }
     }
 
